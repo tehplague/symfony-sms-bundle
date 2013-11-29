@@ -22,9 +22,10 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode
             ->children()
-            ->scalarNode('default_server')
+            ->scalarNode('default_transport')
+                ->isRequired()
             ->end()
-            ->arrayNode('servers')
+            ->arrayNode('transports')
                 ->requiresAtLeastOneElement()
                 ->useAttributeAsKey('name')
                 ->prototype('array')

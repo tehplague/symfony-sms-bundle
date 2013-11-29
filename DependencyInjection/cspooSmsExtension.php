@@ -5,7 +5,11 @@ namespace cspoo\SmsBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+
+use cspoo\SmsBundle\Transport;
+use cspoo\SmsBundle\Services\SmsFactory;
 
 class cspooSmsExtension extends Extension
 {
@@ -15,21 +19,24 @@ class cspooSmsExtension extends Extension
         $loader->load('services.xml');
 
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $extensionConfig = $this->processConfiguration($configuration, $configs);
 
-        $servers = array();
-        foreach ($config['servers'] as $name => $server)
+        $transports = array();
+        foreach ($extensionConfig['transports'] as $name => $config)
         {
-        	$isDefaultServer = $config['default_server'] === $name;
-        	$this->configureServer($name, $server, $container, $isDefaultServer);
+        	$isDefaultTransport = $extensionConfig['default_transport'] === $name;
+        	$this->configureTransport($name, $config, $container, $isDefaultTransport);
         }
+
+        $container->setParameter('sms.transports', $transports);
+        $container->setParameter('sms.default_transport', $extensionConfig['default_transport']);
     }
 
-    protected function configureServer($name, array $server, ContainerBuilder $container, $isDefaultServer = false)
+    protected function configureTransport($name, array $config, ContainerBuilder $container, $isDefaultTransport = false)
     {
-    	$container->setParameter(sprintf('sms.servers.%s.type', $name), $server['type']);
-    	$container->setParameter(sprintf('sms.servers.%s.username', $name), $server['username']);
-    	$container->setParameter(sprintf('sms.servers.%s.password', $name), $server['password']);
+    	$container->setParameter(sprintf('sms.transports.%s.type', $name), $config['type']);
+    	$container->setParameter(sprintf('sms.transports.%s.username', $name), $config['username']);
+    	$container->setParameter(sprintf('sms.transports.%s.password', $name), $config['password']);
     }
 
     public function getAlias()
