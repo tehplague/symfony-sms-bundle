@@ -20,7 +20,6 @@ class Configuration implements ConfigurationInterface
 
     private function addServersSection(ArrayNodeDefinition $rootNode)
     {
-
         $rootNode
             ->children()
             ->scalarNode('default_server')
