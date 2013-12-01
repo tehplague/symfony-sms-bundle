@@ -39,6 +39,8 @@ class SmscreatorTransport implements SmsTransportInterface
 	public function sendSms(Sms $sms)
 	{
 		$recipient = $sms->getRecipient();
+		$recipient = str_replace(array('-', ' '), '', $recipient);
+
 		$message = mb_convert_encoding($sms->getMessage(), 'UTF-8', 'ISO-8859-1');
 		
 		return $this->client->SendSimpleSMS(
