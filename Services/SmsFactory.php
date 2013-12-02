@@ -12,6 +12,12 @@ class SmsFactory extends ContainerAware
 	private $transport_name = null;
     private $transport = null;
 
+    public function getTransportName()
+    {
+        $this->loadTransport();
+        return $this->transport->getName();
+    }
+
     public function getAccountBalance()
     {
         $this->loadTransport();

@@ -56,6 +56,11 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 		$this->password = $password;
 	}
 
+	public function getName()
+	{
+		return 'SMSCreator (http://www.smscreator.de)';
+	}
+
 	public function sendSms(Sms $sms)
 	{
 		$recipient = $sms->getRecipient();
