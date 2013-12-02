@@ -24,6 +24,11 @@ class SmscreatorTransport implements SmsTransportInterface
 
 		$soapUrl = 'http://soap.smscreator.de/send.asmx?WSDL';
 		$this->client = new \SoapClient($soapUrl);
+
+		if ($this->client == null)
+		{
+			throw new \Exception('Could not instantiate SOAP client');
+		}
 	}
 
 	public function setUsername($username)
