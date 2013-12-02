@@ -12,14 +12,14 @@ class SmsFactory extends ContainerAware
 	private $transport_name = null;
     private $transport = null;
 
-    public function queryBalance()
+    public function getAccountBalance()
     {
         $this->loadTransport();
 
         if (!($this->transport instanceof Transport\SmsPrepaidTransportInterface))
             throw new \Exception('The current transport does not implement SmsPrepaidTransportInterface');
 
-        return $this->transport->queryBalance();
+        return $this->transport->getAccountBalance();
     }
 
     public function sendSms(Sms $sms)
