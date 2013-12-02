@@ -4,7 +4,7 @@ namespace cspoo\SmsBundle\Transport;
 
 use cspoo\SmsBundle\Model\Sms;
 
-class SmscreatorTransport implements SmsTransportInterface
+class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
 {
 	/**
 	 * SOAP client
@@ -53,6 +53,14 @@ class SmscreatorTransport implements SmsTransportInterface
 			$this->password,
 			$recipient,
 			$message
+		);
+	}
+
+	public function getAccountBalance()
+	{
+		return $this->client->QueryBalance(
+			$this->username,
+			$this->password
 		);
 	}
 }
