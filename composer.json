@@ -3,7 +3,7 @@
     "type" : "symfony-bundle",
     "description" : "Symfony SMS bundle",
     "keywords" : ["SMS", "notification"],
-    "homepage" : "https://github.com/vbinsider/symfony-sms-bundle",
+    "homepage" : "https://github.com/tehplague/symfony-sms-bundle",
     "license" : "GPL",
     "authors" :
     [
