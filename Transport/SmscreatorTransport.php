@@ -7,11 +7,18 @@ use cspoo\SmsBundle\Model\Sms;
 class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
 {
 	/**
-	 * SOAP client
+	 * SOAP client used for querying information
 	 * 
 	 * @var \SoapClient
 	 */
-	private $client = null;
+	private $informationClient = null;
+
+	/**
+	 * SOAP client used for sending messages
+	 * 
+	 * @var \SoapClient
+	 */
+	private $sendClient = null;
 
 	private $username;
 
@@ -22,10 +29,18 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 			throw new \Exception('PHP SOAP module not loaded');
 		}
 
-		$soapUrl = 'http://soap.smscreator.de/send.asmx?WSDL';
-		$this->client = new \SoapClient($soapUrl);
+		$soapUrl = 'http://www.smscreator.de/gateway/Information.asmx?WSDL';
+		$this->informationClient = new \SoapClient($soapUrl, array('exceptions' => true, 'trace' => true));
 
-		if ($this->client == null)
+		if ($this->informationClient == null)
+		{
+			throw new \Exception('Could not instantiate SOAP client');
+		}
+
+		$soapUrl = 'http://www.smscreator.de/gateway/Send.asmx?WSDL';
+		$this->sendClient = new \SoapClient($soapUrl, array('exceptions' => true, 'trace' => true));
+
+		if ($this->sendClient == null)
 		{
 			throw new \Exception('Could not instantiate SOAP client');
 		}
@@ -41,6 +56,11 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 		$this->password = $password;
 	}
 
+	public function getName()
+	{
+		return 'SMSCreator (http://www.smscreator.de)';
+	}
+
 	public function sendSms(Sms $sms)
 	{
 		$recipient = $sms->getRecipient();
@@ -48,19 +68,28 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 
 		$message = mb_convert_encoding($sms->getMessage(), 'UTF-8', 'ISO-8859-1');
 		
-		return $this->client->SendSimpleSMS(
-			$this->username,
-			$this->password,
-			$recipient,
-			$message
-		);
+		$request = new \stdClass();
+		$request->User = $this->username;
+		$request->Password = $this->password;
+		$request->Recipient = $recipient;
+		$request->Sender = '';
+		$request->SMSText = $message;
+		$request->SmsTyp = 'Standard';
+		$request->SendDate = '';
+
+		return $this->sendClient->SendSimpleSMS($request);
 	}
 
 	public function getAccountBalance()
 	{
-		return $this->client->QueryBalance(
-			$this->username,
-			$this->password
-		);
+		$request = new \stdClass();
+		$request->User = $this->username;
+		$request->Password = $this->password;
+
+		$result = $this->informationClient->QueryAccountBalance($request);
+		if (is_object($result))
+			return $result->QueryAccountBalanceResult->Value;
+
+		return NULL;
 	}
 }
