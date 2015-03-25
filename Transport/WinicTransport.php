@@ -17,16 +17,16 @@ class WinicTransport extends BaseTransport
         $id = urlencode($this->getUsername());
         $password = urlencode($this->getPassword());
         $to = urlencode($sms->getRecipient());
-        $content = urlencode($sms->getContent());
+        $content = urlencode($sms->getMessage());
 
-        $rquestUrl = sprintf(
+        $requestUrl = sprintf(
             "http://service.winic.org/sys_port/gateway/?id=%s&pwd=%s&to=%s&content=%s&time=",
             $id,
-            $pwd,
+            $password,
             $to,
             $content
         );
-        $returnedData = file($rurl);
+        $returnedData = file($requestUrl);
         return $returnedData;
     }
 }
