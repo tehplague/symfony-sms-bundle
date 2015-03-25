@@ -47,18 +47,24 @@ class SmsFactory extends ContainerAware
             case 'smscreator':
                 $transport = new Transport\SmscreatorTransport();
 
-                $username = $this->container->getParameter(sprintf('sms.transports.%s.username', $this->transport_name));
-                $transport->setUsername($username);
-
-                $password = $this->container->getParameter(sprintf('sms.transports.%s.password', $this->transport_name));
-                $transport->setPassword($password);
-
-                $this->transport = $transport;
+                break;
+            case 'winic':
+                $transport = new Transport\WinicTransport();
                 break;
         }
 
-        if ($this->transport == null)
+        if ($this->transport == null) {
             throw new \Exception('Could not initialize SMS transport interface');
+        }
+
+        $username = $this->container->getParameter(sprintf('sms.transports.%s.username', $this->transport_name));
+        $transport->setUsername($username);
+
+        $password = $this->container->getParameter(sprintf('sms.transports.%s.password', $this->transport_name));
+        $transport->setPassword($password);
+
+        $this->transport = $transport;
+
     }
 
     public function createSms($recipient, $message)
