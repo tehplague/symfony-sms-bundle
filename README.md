@@ -3,6 +3,14 @@ symfony-sms-bundle
 
 Symfony2 bundle for supporting SMS
 
+## Activate the bundle
+
+In your AppKernel:
+```
+    new cspoo\SmsBundle\cspooSmsBundle(),
+
+```
+
 ## Example of configuration
 
 ```
@@ -18,6 +26,15 @@ cspoo_sms:
 
 ```
 
+## Usage in controller
+
+
+```
+        $smsSender = $this->container->get('sms');
+        $sms = $smsSender->createSms($phone, $token);
+        $smsSender->sendSms($sms);
+
+```
 
 ## Adding your own provider
 
