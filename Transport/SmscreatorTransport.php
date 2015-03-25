@@ -4,7 +4,7 @@ namespace cspoo\SmsBundle\Transport;
 
 use cspoo\SmsBundle\Model\Sms;
 
-class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
+class SmscreatorTransport extends BaseTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
 {
 	/**
 	 * SOAP client used for querying information
@@ -20,7 +20,6 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 	 */
 	private $sendClient = null;
 
-	private $username;
 
 	public function __construct()
 	{
@@ -44,16 +43,6 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 		{
 			throw new \Exception('Could not instantiate SOAP client');
 		}
-	}
-
-	public function setUsername($username)
-	{
-		$this->username = $username;
-	}
-
-	public function setPassword($password)
-	{
-		$this->password = $password;
 	}
 
 	public function getName()

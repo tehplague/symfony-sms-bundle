@@ -4,19 +4,8 @@ namespace cspoo\SmsBundle\Transport;
 
 use cspoo\SmsBundle\Model\Sms;
 
-class WinicTransport implements SmsTransportInterface
+class WinicTransport extends BaseTransport
 {
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
 
     public function getName()
     {
