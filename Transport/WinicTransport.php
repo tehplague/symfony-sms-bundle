@@ -16,7 +16,7 @@ class WinicTransport extends BaseTransport
     {
         $id = urlencode($this->getUsername());
         $password = urlencode($this->getPassword());
-        $to = urlencode($sms->getRecipient);
+        $to = urlencode($sms->getRecipient());
         $content = urlencode($sms->getContent());
 
         $rquestUrl = sprintf(
