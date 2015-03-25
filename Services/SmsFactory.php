@@ -53,7 +53,7 @@ class SmsFactory extends ContainerAware
                 break;
         }
 
-        if ($this->transport == null) {
+        if ($transport == null) {
             throw new \Exception('Could not initialize SMS transport interface');
         }
 

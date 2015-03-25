@@ -58,8 +58,8 @@ class SmscreatorTransport extends BaseTransport implements SmsTransportInterface
 		$message = mb_convert_encoding($sms->getMessage(), 'UTF-8', 'ISO-8859-1');
 		
 		$request = new \stdClass();
-		$request->User = $this->username;
-		$request->Password = $this->password;
+		$request->User = $this->getUsername();
+		$request->Password = $this->getPassword();
 		$request->Recipient = $recipient;
 		$request->Sender = '';
 		$request->SMSText = $message;
@@ -72,8 +72,8 @@ class SmscreatorTransport extends BaseTransport implements SmsTransportInterface
 	public function getAccountBalance()
 	{
 		$request = new \stdClass();
-		$request->User = $this->username;
-		$request->Password = $this->password;
+		$request->User = $this->getUsername();
+		$request->Password = $this->getPassword();
 
 		$result = $this->informationClient->QueryAccountBalance($request);
 		if (is_object($result))

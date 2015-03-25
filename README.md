@@ -3,6 +3,21 @@ symfony-sms-bundle
 
 Symfony2 bundle for supporting SMS
 
+## Example of configuration
+
+```
+# config.yml
+cspoo_sms:
+    default_transport: winic
+    transports:
+        -
+            name: winic
+            type: winic
+            username: foo
+            password: bar
+
+```
+
 
 ## Adding your own provider
 
@@ -31,8 +46,8 @@ class WinicTransport extends BaseTransport
 
     public function sendSms(Sms $sms)
     {
-        $id = urlencode($this->username);
-        $password = urlencode($this->password);
+        $id = urlencode($this->getUsername());
+        $password = urlencode($this->getPassword());
         $to = urlencode($sms->getRecipient);
         $content = urlencode($sms->getContent());
 
