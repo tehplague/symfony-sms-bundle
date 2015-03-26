@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode
             ->children()
+                ->booleanNode('disable_delivery')->defaultFalse()->end()
                 ->scalarNode('default_transport')
                     ->isRequired()
                 ->end()
@@ -44,9 +45,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-            ->children()
-                ->booleanNode('disable_delivery')->defaultValue(false)->end()
             ->end()
         ;
     }
