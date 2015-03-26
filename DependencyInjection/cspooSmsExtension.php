@@ -30,6 +30,7 @@ class cspooSmsExtension extends Extension
 
         $container->setParameter('sms.transports', $transports);
         $container->setParameter('sms.default_transport', $extensionConfig['default_transport']);
+        $container->setParameter('sms.disable_delivery', $extensionConfig['disable_delivery']);
     }
 
     protected function configureTransport($name, array $config, ContainerBuilder $container, $isDefaultTransport = false)
