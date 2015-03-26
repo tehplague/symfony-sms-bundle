@@ -26,6 +26,15 @@ cspoo_sms:
 
 ```
 
+it's possible to disable sms delivery in test mode
+
+```yaml
+# config_test.yml
+
+cspoo_sms:
+    disable_delivery: true
+```
+
 ## Usage in controller
 
 
