@@ -31,7 +31,10 @@ class SmsFactory extends ContainerAware
     public function sendSms(Sms $sms)
     {
         $this->loadTransport();
-        if (!$this->container->getParameter('sms.disable_delivery')) {
+        if (
+            !$this->container->hasParameter('sms.disable_delivery') ||
+            $this->container->getParameter('sms.disable_delivery') === false
+        ) {
             return $this->transport->sendSms($sms);
         }
         //TODO: certainly standardize what sendSms is suppose to return
