@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('default_transport')
                 ->isRequired()
             ->end()
+            ->booleanNode('disable_delivery')->defaultValue(false)->end()
             ->arrayNode('transports')
                 ->requiresAtLeastOneElement()
                 ->useAttributeAsKey('name')
