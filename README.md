@@ -40,7 +40,7 @@ cspoo_sms:
 
 ```
         $smsSender = $this->container->get('sms');
-        $sms = $smsSender->createSms($phone, $token);
+        $sms = $smsSender->createSms($phone, $content);
         $smsSender->sendSms($sms);
 
 ```
