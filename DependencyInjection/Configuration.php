@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('type')
                         ->validate()
-                            ->ifNotInArray(array('smscreator'))
+                            ->ifNotInArray(array('smscreator', 'winic'))
                             ->thenInvalid('The %s type is not supported')
                         ->end()
                     ->end()

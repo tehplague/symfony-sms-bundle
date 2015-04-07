@@ -4,7 +4,7 @@ namespace cspoo\SmsBundle\Transport;
 
 use cspoo\SmsBundle\Model\Sms;
 
-class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
+class SmscreatorTransport extends BaseTransport implements SmsTransportInterface, SmsPrepaidTransportInterface
 {
 	/**
 	 * SOAP client used for querying information
@@ -20,7 +20,6 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 	 */
 	private $sendClient = null;
 
-	private $username;
 
 	public function __construct()
 	{
@@ -46,16 +45,6 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 		}
 	}
 
-	public function setUsername($username)
-	{
-		$this->username = $username;
-	}
-
-	public function setPassword($password)
-	{
-		$this->password = $password;
-	}
-
 	public function getName()
 	{
 		return 'SMSCreator (http://www.smscreator.de)';
@@ -69,8 +58,8 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 		$message = mb_convert_encoding($sms->getMessage(), 'UTF-8', 'ISO-8859-1');
 		
 		$request = new \stdClass();
-		$request->User = $this->username;
-		$request->Password = $this->password;
+		$request->User = $this->getUsername();
+		$request->Password = $this->getPassword();
 		$request->Recipient = $recipient;
 		$request->Sender = '';
 		$request->SMSText = $message;
@@ -83,8 +72,8 @@ class SmscreatorTransport implements SmsTransportInterface, SmsPrepaidTransportI
 	public function getAccountBalance()
 	{
 		$request = new \stdClass();
-		$request->User = $this->username;
-		$request->Password = $this->password;
+		$request->User = $this->getUsername();
+		$request->Password = $this->getPassword();
 
 		$result = $this->informationClient->QueryAccountBalance($request);
 		if (is_object($result))
